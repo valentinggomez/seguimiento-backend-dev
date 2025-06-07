@@ -75,7 +75,7 @@ router.post('/', async (req, res) => {
       respuestas[10] || '',
       new Date().toLocaleString('es-AR'),
       paciente.dni_medico || '',
-      paciente.matricula_medica || ''
+      paciente.matricula_medico || ''
     ];
 
     console.log('📤 Enviando a Sheets:', fila);
