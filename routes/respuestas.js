@@ -75,10 +75,10 @@ router.post('/', async (req, res) => {
     await guardarEnSheets(fila);
     console.log('✅ Guardado en Sheets correctamente');
 
-    res.status(200).json({ mensaje: 'Respuesta guardada correctamente ✅' });
+    res.status(200).json({ success: true, mensaje: 'Guardado en Supabase y Sheets' });
   } catch (error) {
     console.error('❌ Error al procesar la respuesta:', error);
-    res.status(500).json({ error: 'Error interno del servidor' });
+    res.status(500).json({ success: false, error: error.message || 'Error interno del servidor' });
   }
 });
 
