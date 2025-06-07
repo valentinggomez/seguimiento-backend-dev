@@ -6,9 +6,13 @@ const { guardarEnSheets } = require('../services/sheetsService');
 const { createClient } = require('@supabase/supabase-js');
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
-async function guardarRespuestaEnSupabase(paciente_id, respuestas) {
-  const convertirABooleano = (valor) => valor === 'Sí' ? true : valor === 'No' ? false : null;
+function convertirABooleano(valor) {
+  if (valor === 'Sí') return true;
+  if (valor === 'No') return false;
+  return null;
+}
 
+async function guardarRespuestaEnSupabase(paciente_id, respuestas) {
   const { error } = await supabase.from('respuestas_postop').insert({
     paciente_id,
     dolor_6h: respuestas[0],
@@ -33,8 +37,6 @@ async function guardarRespuestaEnSupabase(paciente_id, respuestas) {
   }
 }
 
-
-
 router.post('/', async (req, res) => {
   try {
     const { paciente_id, respuestas } = req.body;
@@ -54,24 +56,26 @@ router.post('/', async (req, res) => {
     await guardarRespuestaEnSupabase(paciente.id, respuestas);
 
     const fila = [
-        paciente.id,
-        paciente.nombre || '',
-        paciente.dni || '',
-        paciente.telefono || '',
-        paciente.cirugia || '',
-        new Date().toLocaleString('es-AR'), // Fecha de cirugía
-        respuestas[0] || '', // Dolor 6h
-        respuestas[1] || '', // Dolor 24h
-        respuestas[2] || '', // Dolor > 7
-        respuestas[3] || '', // Náuseas
-        respuestas[4] || '', // Vómitos
-        respuestas[5] || '', // Somnolencia
-        respuestas[6] || '', // Medicación adicional
-        respuestas[7] || '', // Despertó por dolor
-        respuestas[8] || '', // Quiere seguimiento
-        respuestas[9] || '', // Satisfacción
-        respuestas[10] || '', // Observaciones
-        new Date().toLocaleString('es-AR') // Fecha de respuesta
+      paciente.id,
+      paciente.nombre || '',
+      paciente.dni || '',
+      paciente.telefono || '',
+      paciente.cirugia || '',
+      paciente.fecha_cirugia || '',
+      respuestas[0] || '',
+      respuestas[1] || '',
+      respuestas[2] || '',
+      respuestas[3] || '',
+      respuestas[4] || '',
+      respuestas[5] || '',
+      respuestas[6] || '',
+      respuestas[7] || '',
+      respuestas[8] || '',
+      respuestas[9] || '',
+      respuestas[10] || '',
+      new Date().toLocaleString('es-AR'),
+      paciente.firma_dni || '',
+      paciente.firma_matricula || ''
     ];
 
     console.log('📤 Enviando a Sheets:', fila);
