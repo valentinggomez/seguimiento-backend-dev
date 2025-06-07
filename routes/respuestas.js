@@ -7,17 +7,19 @@ const { createClient } = require('@supabase/supabase-js');
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 async function guardarRespuestaEnSupabase(paciente_id, respuestas) {
+  const convertirABooleano = (valor) => valor === 'Sí' ? true : valor === 'No' ? false : null;
+
   const { error } = await supabase.from('respuestas_postop').insert({
     paciente_id,
     dolor_6h: respuestas[0],
     dolor_24h: respuestas[1],
-    dolor_mayor_7: respuestas[2],
-    nauseas: respuestas[3],
-    vomitos: respuestas[4],
-    somnolencia: respuestas[5],
+    dolor_mayor_7: convertirABooleano(respuestas[2]),
+    nauseas: convertirABooleano(respuestas[3]),
+    vomitos: convertirABooleano(respuestas[4]),
+    somnolencia: convertirABooleano(respuestas[5]),
     medicacion_adicional: respuestas[6],
-    desperto_por_dolor: respuestas[7],
-    quiere_seguimiento: respuestas[8],
+    desperto_por_dolor: convertirABooleano(respuestas[7]),
+    quiere_seguimiento: convertirABooleano(respuestas[8]),
     satisfaccion: respuestas[9],
     observaciones: respuestas[10],
     fecha_respuesta: new Date().toISOString()
@@ -30,6 +32,7 @@ async function guardarRespuestaEnSupabase(paciente_id, respuestas) {
     console.log('✅ Guardado en Supabase correctamente');
   }
 }
+
 
 
 router.post('/', async (req, res) => {
