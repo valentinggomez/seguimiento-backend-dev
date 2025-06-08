@@ -58,6 +58,7 @@ router.post('/', async (req, res) => {
       paciente.id,
       paciente.nombre || '',
       paciente.dni || '',
+      paciente.edad || '',
       paciente.telefono || '',
       paciente.cirugia || '',
       paciente.fecha_cirugia || '',
@@ -72,8 +73,14 @@ router.post('/', async (req, res) => {
       respuestas[8] || '',
       respuestas[9] || '',
       new Date().toLocaleString('es-AR'),
-      paciente.dni_medico || '',
-      paciente.matricula_medico || ''
+      paciente.bloqueo || '',
+      paciente.dosis_ketorolac || '',
+      paciente.dosis_dexametasona || '',
+      paciente.dosis_dexmedetomidina || '',
+      paciente.dosis_ketamina || '',
+      paciente.esquema_analgesico || '',
+      paciente.paracetamol_previo || '',
+      paciente.nombre_medico || ''
     ];
 
     console.log('📤 Enviando a Sheets:', fila);
