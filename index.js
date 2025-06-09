@@ -11,7 +11,22 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors());
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://seguimiento-frontend-dev.vercel.app',
+]
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true)
+    }
+    return callback(new Error('Not allowed by CORS'))
+  },
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type'],
+}))
+
 app.use(express.json()); // Para leer JSON en el body
 
 // Rutas
