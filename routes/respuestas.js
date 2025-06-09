@@ -24,7 +24,8 @@ async function guardarRespuestaEnSupabase(paciente_id, respuestas) {
     medicacion_adicional: respuestas[6],
     desperto_por_dolor: convertirABooleano(respuestas[7]),
     satisfaccion: respuestas[8],
-    observaciones: respuestas[9],
+    horas_movilidad: respuestas[9],
+    observaciones: respuestas[10],
     fecha_respuesta: new Date().toISOString()
   });
 
@@ -72,6 +73,7 @@ router.post('/', async (req, res) => {
       respuestas[7] || '',
       respuestas[8] || '',
       respuestas[9] || '',
+      respuestas[10] || '',
       new Date().toLocaleString('es-AR'),
       paciente.bloqueo || '',
       paciente.dosis_ketorolac || '',
